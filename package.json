@@ -1,6 +1,6 @@
 {
   "name": "@vspatabuga/porto-kalpataru",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "VSP Kalpataru Simulation - Waste Management & Circular Economy",
   "type": "module",
   "main": "simulate.sh",
