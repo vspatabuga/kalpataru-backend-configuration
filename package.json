@@ -1,0 +1,38 @@
+{
+  "name": "@vspatabuga/porto-kalpataru",
+  "version": "1.0.0",
+  "description": "VSP Kalpataru Simulation - Waste Management & Circular Economy",
+  "type": "module",
+  "main": "simulate.sh",
+  "bin": {
+    "vsp-porto-kalpataru": "./simulate.sh"
+  },
+  "scripts": {
+    "simulate": "bash simulate.sh",
+    "start": "bash simulate.sh",
+    "stop": "docker compose -p vsp-kalpataru down",
+    "clean": "docker compose -p vsp-kalpataru down -v"
+  },
+  "keywords": [
+    "vsp",
+    "kalpataru",
+    "waste-management",
+    "simulation",
+    "sovereign-systems"
+  ],
+  "author": "VSP (Virgiawan Sagarmata Patabuga)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vspatabuga/kalpataru-backend-configuration.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "files": [
+    "simulate.sh",
+    "docker-compose.yml",
+    "Dockerfile",
+    "src/"
+  ]
+}

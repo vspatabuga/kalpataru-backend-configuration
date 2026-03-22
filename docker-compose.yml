@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vsp_kalpataru_api
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=kalpataru
+      - DB_USER=postgres
+      - DB_PASSWORD=kalpataru123
+    depends_on:
+      - db
+    networks:
+      - vsp_kalpataru_net
+
+  db:
+    image: postgres:15-alpine
+    container_name: vsp_kalpataru_db
+    environment:
+      - POSTGRES_DB=kalpataru
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=kalpataru123
+    volumes:
+      - kalpataru_data:/var/lib/postgresql/data
+    networks:
+      - vsp_kalpataru_net
+
+  web:
+    image: nginx:alpine
+    container_name: vsp_kalpataru_web
+    ports:
+      - "3001:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    networks:
+      - vsp_kalpataru_net
+
+networks:
+  vsp_kalpataru_net:
+    driver: bridge
+
+volumes:
+  kalpataru_data:
