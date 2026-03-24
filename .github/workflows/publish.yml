@@ -47,8 +47,13 @@ jobs:
       - name: Update package.json version
         run: |
           PACKAGE_VERSION=${{ steps.version.outputs.VERSION }}
-          echo "Updating package version to $PACKAGE_VERSION"
-          npm version $PACKAGE_VERSION --no-git-tag-version
+          CURRENT_VERSION=$(cat package.json | jq -r '.version')
+          if [ "$CURRENT_VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "Updating package version from $CURRENT_VERSION to $PACKAGE_VERSION"
+            npm version $PACKAGE_VERSION --no-git-tag-version
+          else
+            echo "Package version already set to $PACKAGE_VERSION"
+          fi
       
       - name: Configure npm for GitHub Packages
         run: |
