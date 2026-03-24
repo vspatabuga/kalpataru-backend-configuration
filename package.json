@@ -1,6 +1,6 @@
 {
   "name": "@vspatabuga/sim-kalpataru",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "VSP Kalpataru Simulation - Waste Management & Circular Economy System",
   "type": "module",
   "main": "simulate.sh",
@@ -36,6 +36,7 @@
     "simulate.sh",
     "docker-compose.yml",
     "Dockerfile",
+    "web/",
     "simulation/",
     "docs/",
     "README.md"
