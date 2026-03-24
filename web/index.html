@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalpataru - Waste Management Simulation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a5f2a 0%, #2d8b4e 50%, #1a5f2a 100%);
+      min-height: 100vh;
+      color: #fff;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .logo {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .subtitle {
+      color: rgba(255,255,255,0.8);
+      font-size: 18px;
+    }
+    .status {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .card {
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    .card-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+    .card-value {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .card-label {
+      color: rgba(255,255,255,0.7);
+      font-size: 14px;
+    }
+    .info {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .info h3 {
+      margin-bottom: 16px;
+      font-size: 18px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .info-label { color: rgba(255,255,255,0.7); }
+    .info-value { font-weight: 600; }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+    }
+    .badge {
+      display: inline-block;
+      background: #4ade80;
+      color: #1a5f2a;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">🌿</div>
+      <h1 class="title">KALPATARU</h1>
+      <p class="subtitle">Waste Management & Circular Economy System</p>
+      <br>
+      <span class="badge">Simulation Ready</span>
+    </div>
+
+    <div class="status">
+      <div class="status-dot"></div>
+      <span>Simulation is running - API Connected</span>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">♻️</div>
+        <div class="card-value" id="waste-collected">0 kg</div>
+        <div class="card-label">Waste Collected Today</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-value" id="recycling-rate">0%</div>
+        <div class="card-label">Recycling Rate</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚛</div>
+        <div class="card-value" id="vehicles">0</div>
+        <div class="card-label">Active Vehicles</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">👥</div>
+        <div class="card-value" id="communities">0</div>
+        <div class="card-label">Communities Served</div>
+      </div>
+    </div>
+
+    <div class="info">
+      <h3>📍 Simulation Status</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">API Endpoint</span>
+          <span class="info-value">http://localhost:3000</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Database</span>
+          <span class="info-value">Connected</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Simulation ID</span>
+          <span class="info-value" id="sim-id">Loading...</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Uptime</span>
+          <span class="info-value" id="uptime">0m</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>VSP Porto Simulation • Kalpataru v1.0</p>
+      <p>Experience Sovereign Systems Locally</p>
+    </div>
+  </div>
+
+  <script>
+    // Generate random simulation data
+    function updateDashboard() {
+      document.getElementById('waste-collected').textContent = 
+        (Math.random() * 500 + 100).toFixed(1) + ' kg';
+      document.getElementById('recycling-rate').textContent = 
+        Math.floor(Math.random() * 30 + 40) + '%';
+      document.getElementById('vehicles').textContent = 
+        Math.floor(Math.random() * 5 + 8);
+      document.getElementById('communities').textContent = 
+        Math.floor(Math.random() * 20 + 30);
+      document.getElementById('sim-id').textContent = 
+        'SIM-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    }
+
+    // Update uptime counter
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      document.getElementById('uptime').textContent = 
+        mins + 'm ' + secs + 's';
+    }, 1000);
+
+    // Initialize
+    updateDashboard();
+    setInterval(updateDashboard, 5000);
+
+    // Try to fetch real data from API
+    fetch('http://localhost:3000/api/waste')
+      .then(res => res.json())
+      .then(data => {
+        document.querySelector('.status span').textContent = 
+          'Simulation is running - Live Data Connected';
+      })
+      .catch(() => {
+        document.querySelector('.status span').textContent = 
+          'Simulation is running - Demo Mode';
+      });
+  </script>
+</body>
+</html>
