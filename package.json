@@ -1,22 +1,25 @@
 {
-  "name": "@vspatabuga/porto-kalpataru",
-  "version": "1.0.3",
-  "description": "VSP Kalpataru Simulation - Waste Management & Circular Economy",
+  "name": "@vspatabuga/sim-kalpataru",
+  "version": "1.0.0",
+  "description": "VSP Kalpataru Simulation - Waste Management & Circular Economy System",
   "type": "module",
   "main": "simulate.sh",
   "bin": {
-    "vsp-porto-kalpataru": "./simulate.sh"
+    "vsp-sim-kalpataru": "./simulate.sh"
   },
   "scripts": {
     "simulate": "bash simulate.sh",
-    "start": "bash simulate.sh",
+    "start": "docker compose -p vsp-kalpataru up -d",
     "stop": "docker compose -p vsp-kalpataru down",
-    "clean": "docker compose -p vsp-kalpataru down -v"
+    "clean": "docker compose -p vsp-kalpataru down -v",
+    "logs": "docker compose -p vsp-kalpataru logs -f"
   },
   "keywords": [
     "vsp",
+    "sim-kalpataru",
     "kalpataru",
     "waste-management",
+    "circular-economy",
     "simulation",
     "sovereign-systems"
   ],
@@ -33,6 +36,8 @@
     "simulate.sh",
     "docker-compose.yml",
     "Dockerfile",
-    "src/"
+    "simulation/",
+    "docs/",
+    "README.md"
   ]
 }
