@@ -104,7 +104,7 @@ jobs:
           ls -la $SCREENSHOTS_DIR/ || echo "No screenshots generated"
 
       - name: Upload screenshots
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: screenshots-${{ github.event.repository.name }}
